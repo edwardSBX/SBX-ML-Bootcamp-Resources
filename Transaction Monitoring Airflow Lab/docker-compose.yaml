@@ -28,7 +28,7 @@ x-airflow-common:
     _AIRFLOW_WWW_USER_USERNAME: admin
     _AIRFLOW_WWW_USER_PASSWORD: admin
     # Install required providers and libs for DAG (pandas for transform, psycopg2 for hook)
-    _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary pandas apache-airflow-providers-postgres
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-psycopg2-binary pandas apache-airflow-providers-postgres}
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
@@ -84,6 +84,8 @@ services:
       <<: *airflow-common-env
       _AIRFLOW_DB_MIGRATE: 'true'
       _AIRFLOW_WWW_USER_CREATE: 'true'
+      # Init runs as root; pip install must be skipped here (webserver/scheduler install deps)
+      _PIP_ADDITIONAL_REQUIREMENTS: ''
     user: "0:0"
     restart: "no"
 
