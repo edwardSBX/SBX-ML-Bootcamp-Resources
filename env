@@ -1,0 +1,4 @@
+AIRFLOW_UID=501
+AIRFLOW_GID=20
+FERNET_KEY=
+_PIP_ADDITIONAL_REQUIREMENTS=psycopg2-binary pandas apache-airflow-providers-postgres
